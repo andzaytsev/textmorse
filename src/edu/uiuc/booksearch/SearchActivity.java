@@ -1,8 +1,10 @@
 package edu.uiuc.booksearch;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class SearchActivity extends Activity {
 
@@ -10,6 +12,9 @@ public class SearchActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
+		Intent intent = getIntent();
+		String message = intent.getStringExtra(Main.EXTRA_MESSAGE);
+		((TextView)findViewById(R.id.query)).setText(message);
 	}
 
 	@Override
