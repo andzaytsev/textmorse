@@ -7,39 +7,26 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
-    
-    <TextView 
-        android:id="@+id/textView0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/maintitle"
-        android:layout_centerHorizontal="true"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:layout_margin="14dp"    
-        />
+
     <TextView
         android:id="@+id/textView1"
-        android:layout_below="@id/textView0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/header2"
-        android:layout_centerHorizontal="true"       
-        android:textStyle="italic"
-        android:textSize="20sp"
-        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp"
-         />
+        android:layout_marginTop="8dp"
+        android:text="Enter text to vibrate in Morse:"
+        android:textSize="20sp"
+        android:textStyle="italic" />
     
     <EditText
         android:id="@+id/isbn"
-        android:hint="@string/box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"     
         android:layout_below="@id/textView1"
         android:layout_centerHorizontal="true"       
         android:ems="10"
-        android:inputType="number"
+        android:inputType="text"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="36dp"
         
