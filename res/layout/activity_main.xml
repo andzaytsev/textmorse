@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity" 
+    android:background="@drawable/night">
 
     <TextView
         android:id="@+id/textView1"
@@ -17,7 +18,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/header1"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textColor="#FFFFFF"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -28,7 +29,8 @@
         android:layout_marginBottom="12dp"
         android:layout_marginTop="8dp"
         android:text="@string/header2"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/textView3"
@@ -40,7 +42,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/header3"
         android:textSize="18sp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:textColor="#FFFFFF" />
 
     <CheckBox
         android:id="@+id/checkBox1"
@@ -50,9 +53,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="40dp"
-        android:checked="true"
+        android:checked="false"
         android:text="@string/box"
-        android:textSize="18sp" />
+        android:textSize="18sp" 
+        android:textColor="#FFFFFF"/>
 
     <Button
         android:id="@+id/button1"
@@ -61,6 +65,7 @@
         android:layout_below="@id/checkBox1"
         android:layout_centerHorizontal="true"
         android:onClick="onClick"
-        android:text="@string/buttondesc" />
+        android:text="@string/buttondesc"
+        android:textColor="#000000" />
 
 </RelativeLayout>

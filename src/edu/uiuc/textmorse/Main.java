@@ -3,10 +3,13 @@ package edu.uiuc.textmorse;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 public class Main extends Activity {
 	public static final String PREFS_NAME = "MorseTextPrefs";
@@ -15,6 +18,20 @@ public class Main extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		TextView t1 = (TextView) findViewById(R.id.textView1);
+		TextView t2 = (TextView) findViewById(R.id.textView2);
+		TextView t3 = (TextView) findViewById(R.id.textView3);
+		Button t4 = (Button) findViewById(R.id.button1);
+		CheckBox t5 = (CheckBox) findViewById(R.id.checkBox1);
+
+		Typeface custom_font = Typeface.createFromAsset(getAssets(),
+				"fonts/Roboto_Light.ttf");
+		// ((TextView) v).setTypeface(custom_font);
+		t1.setTypeface(custom_font);
+		t2.setTypeface(custom_font);
+		t3.setTypeface(custom_font);
+		t4.setTypeface(custom_font);
+		t5.setTypeface(custom_font);
 		Intent intent = new Intent(this, TextMorseService.class);
 		startService(intent);
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
