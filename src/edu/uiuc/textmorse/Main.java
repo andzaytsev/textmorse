@@ -1,4 +1,4 @@
-package edu.uiuc.booksearch;
+package edu.uiuc.textmorse;
 
 import java.util.HashMap;
 
@@ -11,38 +11,32 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.telephony.SmsMessage;
 import android.view.Menu;
-import android.view.View;
-import android.widget.EditText;
 
 public class Main extends Activity {
 	private BroadcastReceiver smsListener = new BroadcastReceiver() {
 		@Override
-	    public void onReceive(Context context, Intent intent) {
-	        if(intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")){
-	            Bundle bundle = intent.getExtras();           //---get the SMS message passed in---
-	            SmsMessage[] msgs = null;
-	            String msg_from;
-	            if (bundle != null){
-	                //---retrieve the SMS message received---
-	                try{
-	                    Object[] pdus = (Object[]) bundle.get("pdus");
-	                    msgs = new SmsMessage[pdus.length];
-	                    for(int i=0; i<msgs.length; i++){
-	                        msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
-	                        msg_from = msgs[i].getOriginatingAddress();
-	                        String msgBody = msgs[i].getMessageBody();
-	                        System.out.println("here!");
-	                        Main.this.vibrateMorse(msgBody);
-	                    }
-	                }catch(Exception e){
-//	                            Log.d("Exception caught",e.getMessage());
-	                }
-	            }
-	        }
-	    }
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(
+					"android.provider.Telephony.SMS_RECEIVED")) {
+				Bundle bundle = intent.getExtras();
+				SmsMessage[] msgs = null;
+				if (bundle != null) {
+					try {
+						Object[] pdus = (Object[]) bundle.get("pdus");
+						msgs = new SmsMessage[pdus.length];
+						for (int i = 0; i < msgs.length; i++) {
+							msgs[i] = SmsMessage
+									.createFromPdu((byte[]) pdus[i]);
+							String msgBody = msgs[i].getMessageBody();
+							Main.this.vibrateMorse(msgBody);
+						}
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
 	};
-	
-	public final static String EXTRA_MESSAGE = "edu.uiuc.booksearch.isbn";
+
 	public HashMap<Character, String> mcode = new HashMap<Character, String>();
 
 	public void initMorse() {
@@ -93,7 +87,7 @@ public class Main extends Activity {
 		iff.addAction("android.provider.Telephony.SMS_RECEIVED");
 		this.registerReceiver(this.smsListener, iff);
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -114,24 +108,31 @@ public class Main extends Activity {
 		for (int i = 0; i < pattern.length; ++i)
 			pattern[i] = 0;
 		int i = 1;
+		// Whether the previous char is a space, to avoid multiple spaces
+		boolean prevspace = true;
+		final int unit = 100;
 		for (char letter : str.toCharArray()) {
 			letter = Character.toLowerCase(letter);
-			String dnd = mcode.get((Character)letter);
-			for (char d : dnd.toCharArray()) {
-				if (d == '.')
-					pattern[i++] = 200;
-				else if (d == '-')
-					pattern[i++] = 600;
-				pattern[i++] = 200;
+			String dnd = mcode.get((Character) letter);
+			if (dnd == null) {
+				if (!prevspace) {
+					pattern[i++] = 0;
+					pattern[i++] = 7 * unit;
+				}
+				prevspace = true;
+			} else {
+				for (char d : dnd.toCharArray()) {
+					if (d == '.')
+						pattern[i++] = unit;
+					else if (d == '-')
+						pattern[i++] = 3 * unit;
+					pattern[i++] = unit;
+					prevspace = false;
+				}
+				pattern[i - 1] = 3 * unit;
 			}
-			pattern[i - 1] = 600;
 		}
 		v.vibrate(pattern, -1);
-	}
-	
-	public void onClick(View view) {
-		String str = ((EditText) findViewById(R.id.isbn)).getText().toString();
-		vibrateMorse(str);
 	}
 
 }
