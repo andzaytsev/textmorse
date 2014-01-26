@@ -3,14 +3,45 @@ package edu.uiuc.booksearch;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.telephony.SmsMessage;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 
 public class Main extends Activity {
+	private BroadcastReceiver smsListener = new BroadcastReceiver() {
+		@Override
+	    public void onReceive(Context context, Intent intent) {
+	        if(intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")){
+	            Bundle bundle = intent.getExtras();           //---get the SMS message passed in---
+	            SmsMessage[] msgs = null;
+	            String msg_from;
+	            if (bundle != null){
+	                //---retrieve the SMS message received---
+	                try{
+	                    Object[] pdus = (Object[]) bundle.get("pdus");
+	                    msgs = new SmsMessage[pdus.length];
+	                    for(int i=0; i<msgs.length; i++){
+	                        msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
+	                        msg_from = msgs[i].getOriginatingAddress();
+	                        String msgBody = msgs[i].getMessageBody();
+	                        System.out.println("here!");
+	                        Main.this.vibrateMorse(msgBody);
+	                    }
+	                }catch(Exception e){
+//	                            Log.d("Exception caught",e.getMessage());
+	                }
+	            }
+	        }
+	    }
+	};
+	
 	public final static String EXTRA_MESSAGE = "edu.uiuc.booksearch.isbn";
 	public HashMap<Character, String> mcode = new HashMap<Character, String>();
 
@@ -58,6 +89,15 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initMorse();
+		IntentFilter iff = new IntentFilter();
+		iff.addAction("android.provider.Telephony.SMS_RECEIVED");
+		this.registerReceiver(this.smsListener, iff);
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		this.unregisterReceiver(smsListener);
 	}
 
 	@Override
@@ -67,8 +107,7 @@ public class Main extends Activity {
 		return true;
 	}
 
-	public void onClick(View view) {
-		String str = ((EditText) findViewById(R.id.isbn)).getText().toString();
+	public void vibrateMorse(String str) {
 		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		int MAXLENGTH = 1000;
 		long[] pattern = new long[MAXLENGTH];
@@ -88,6 +127,11 @@ public class Main extends Activity {
 			pattern[i - 1] = 600;
 		}
 		v.vibrate(pattern, -1);
+	}
+	
+	public void onClick(View view) {
+		String str = ((EditText) findViewById(R.id.isbn)).getText().toString();
+		vibrateMorse(str);
 	}
 
 }

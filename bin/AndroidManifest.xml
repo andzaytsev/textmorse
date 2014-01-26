@@ -7,7 +7,9 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:allowBackup="true"
@@ -27,6 +29,7 @@
             android:name="edu.uiuc.booksearch.SearchActivity"
             android:label="@string/title_activity_search" >
         </activity>
+
     </application>
 
 </manifest>
