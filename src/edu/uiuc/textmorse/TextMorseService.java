@@ -87,7 +87,7 @@ public class TextMorseService extends Service {
 		int i = 1;
 		// Whether the previous char is a space, to avoid multiple spaces
 		boolean prevspace = true;
-		final int unit = 100;
+		final int unit = 150;
 		for (char letter : str.toCharArray()) {
 			letter = Character.toLowerCase(letter);
 			String dnd = mcode.get((Character) letter);
