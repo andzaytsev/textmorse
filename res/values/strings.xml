@@ -6,7 +6,7 @@
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
     <string name="buttondesc">OK</string>
-    <string name="header1">Receive texts in Morse Code!</string>
+    <string name="header1">Receive texts in Morse Code</string>
     <string name="header2">This app lets you receive Morse Code texts, encoded as short and long vibrations.</string>
     <string name="header3">For example, SOS is encoded as &#8230; --- &#8230; and your phone will produce 3 short vibrations, followed by 3 long vibrations and 3 short vibrations.</string>
     <string name="box">Do not show this again</string>
